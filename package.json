@@ -1,0 +1,24 @@
+{
+  "name": "aisoc_project_template",
+  "version": "1.0.0",
+  "description": "- Each team must **fork this repository** before starting development.\r - Rename your forked repository using your **official team name**.\r - Update this README in the root of your repo and include: \r   - Team members' full names and emails  \r   - The assigned problem statement (already allotted)\r   - A quick start guide with examples to run your code\r   - Any other details if we need to know",
+  "main": "jest.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.16.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
