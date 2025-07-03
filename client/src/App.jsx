@@ -1,8 +1,7 @@
-import React from 'react';
-import RegisterPage from './pages/registerPage';
+import StudentDashboard from './pages/StudentDashboard';
 
 function App() {
-  return <RegisterPage />;
+  return <StudentDashboard />;
 }
 
 export default App;

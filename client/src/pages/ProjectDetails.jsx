@@ -2,24 +2,28 @@ import React from "react";
 
 export default function ProjectPage() {
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-blue-100 min-h-screen">
       {/* Navbar */}
-      <nav className="bg-white shadow-md p-4 flex justify-between items-center px-8">
-        <div className="text-xl font-bold text-blue-600"><img
-          src="https://media.licdn.com/dms/image/v2/C510BAQG816-s7iwQpg/company-logo_200_200/company-logo_200_200/0/1630617965677?e=2147483647&v=beta&t=x06SrcPLaNpyBgJynNdVlCj75NkGuQKHiqkFkVdf7fo"
-          className="w-10 h-10 mx-auto"
-        /></div>
-        <ul className="flex gap-6 text-sm font-medium text-gray-700">
-          <li className="hover:text-blue-600 cursor-pointer">Home</li>
-          <li className="hover:text-blue-600 cursor-pointer">About</li>
-          <li className="hover:text-blue-600 cursor-pointer">Projects</li>
-          <li className="hover:text-blue-600 cursor-pointer">Resources ▾</li>
-          <li className="hover:text-blue-600 cursor-pointer">Contact</li>
-        </ul>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400">
-          Log Out
-        </button>
-      </nav>
+<nav className="bg-white shadow-md p-4 flex justify-between items-center px-8">
+  <div className="text-xl font-bold text-blue-600">
+    <img
+      src="https://dicpu.in/images/dic/diclogobg.png"
+      className="w-12 h-12 mx-auto"
+    />
+  </div>
+  <div className="flex items-center">
+    <ul className="flex gap-7 text-sm font-medium text-black">
+      <li className="text-mid-blue hover:text-dark-blue cursor-pointer">HOME</li>
+      <li className="hover:text-dark-blue cursor-pointer">ABOUT</li>
+      <li className="hover:text-dark-blue cursor-pointer">PROJECTS</li>
+      <li className="hover:text-dark-blue cursor-pointer">RESOURCES ▾</li>
+      <li className="hover:text-dark-blue cursor-pointer">CONTACT</li>
+    </ul>
+    <button className="bg-mid-blue text-white px-6 py-2 rounded-none hover:bg-blue-100 hover:text-blue-800 after:content-['→'] after:ml-1 ml-4">
+      Join DIC
+    </button>
+  </div>
+</nav>
     
       <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg bg-blue-50">
         <h1 className="text-2xl font-bold text-black mb-4">Project : Lorem Ipsum about content</h1>
@@ -35,26 +39,26 @@ export default function ProjectPage() {
           <p><strong>Skills :</strong> Lorem,Ipsum,Text</p>
           <p><strong>Associate Faculty :</strong> Lorem</p>
         </div>
-        <button className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        <button className="mt-6 bg-mid-blue text-white px-4 py-2 rounded-lg hover:bg-dark-blue transition duration-100">
           Apply Now
         </button>
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-10 px-8 mt-10">
+      <footer className="bg-dark-gray text-white py-10 px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm">
           <div>
-            <h4 className="font-semibold mb-2">Quick Link</h4>
-            <ul className="space-y-1">
-              <li>About Us</li>
-              <li>Contact Us</li>
-              <li>Privacy Policy</li>
-              <li>Terms & Condition</li>
-              <li>FAQs & Help</li>
+           <h4 className="font-semibold mb-2 text-xl">Quick Link</h4>
+           <ul className="space-y-1">
+              <li className="before:content-['>'] before:mr-2 before:text-white">About Us</li>
+              <li className="before:content-['>'] before:mr-2 before:text-white">Contact Us</li>
+             <li className="before:content-['>'] before:mr-2 before:text-white">Privacy Policy</li>
+              <li className="before:content-['>'] before:mr-2   before:text-white">Terms & Condition</li>
+              <li className="before:content-['>'] before:mr-2 before:text-white">FAQs & Help</li>
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-2">Contact</h4>
+            <h4 className="font-semibold mb-2 text-xl">Contact</h4>
             <p>DIC, UIET, Panjab University, Chandigarh</p>
             <p>+91 98765 43210</p>
             <p>dic@uiet.puchd.ac.in</p>
@@ -63,7 +67,7 @@ export default function ProjectPage() {
             </div>
           </div>
           <div>
-            <h4 className="font-semibold mb-2">Gallery</h4>
+            <h4 className="font-semibold mb-2 text-xl">Gallery</h4>
             <div className="grid grid-cols-3 gap-1">
               {[1, 2, 3, 4, 5, 6].map(n => (
                 <img
@@ -76,7 +80,7 @@ export default function ProjectPage() {
             </div>
           </div>
           <div>
-            <h4 className="font-semibold mb-2">Newsletter</h4>
+            <h4 className="font-semibold mb-2 text-xl">Newsletter</h4>
             <p className="mb-2">Dolor amet sit justo amet elitr ipsum elitr et.</p>
             <div className="flex">
               <input

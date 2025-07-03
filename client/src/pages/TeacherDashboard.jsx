@@ -25,24 +25,28 @@ export default function MyProjectsPage() {
   ];
 
   return (
-    <div className="bg-gray-100 min-h-screen ">
+    <div className="bg-blue-50 min-h-screen ">
       {/* Navbar */}
-      <nav className="bg-white shadow-md p-4 flex justify-between items-center px-8">
-        <div className="text-xl font-bold text-blue-600"><img
-          src="https://media.licdn.com/dms/image/v2/C510BAQG816-s7iwQpg/company-logo_200_200/company-logo_200_200/0/1630617965677?e=2147483647&v=beta&t=x06SrcPLaNpyBgJynNdVlCj75NkGuQKHiqkFkVdf7fo"
-          className="w-10 h-10 mx-auto"
-        /></div>
-        <ul className="flex gap-6 text-sm font-medium text-gray-700">
-          <li className="hover:text-blue-600 cursor-pointer">Home</li>
-          <li className="hover:text-blue-600 cursor-pointer">About</li>
-          <li className="hover:text-blue-600 cursor-pointer">Projects</li>
-          <li className="hover:text-blue-600 cursor-pointer">Resources ▾</li>
-          <li className="hover:text-blue-600 cursor-pointer">Contact</li>
-        </ul>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400">
-          Log Out
-        </button>
-      </nav>
+<nav className="bg-white shadow-md p-4 flex justify-between items-center px-8">
+  <div className="text-xl font-bold text-blue-600">
+    <img
+      src="https://dicpu.in/images/dic/diclogobg.png"
+      className="w-12 h-12 mx-auto"
+    />
+  </div>
+  <div className="flex items-center">
+    <ul className="flex gap-7 text-sm font-medium text-black">
+      <li className="hover:text-dark-blue cursor-pointer">HOME</li>
+      <li className="hover:text-dark-blue cursor-pointer">ABOUT</li>
+      <li className="hover:text-dark-blue cursor-pointer">PROJECTS ▾</li>
+      
+      <li className="hover:text-dark-blue cursor-pointer">POST NEW</li>
+    </ul>
+    <button className="bg-mid-blue text-white px-6 py-2 rounded-none hover:bg-dark-blue hover:text-white after:content-['→'] after:ml-1 ml-4">
+      Log Out
+    </button>
+  </div>
+</nav>
 
       {/* Heading */}
       <div className="text-center py-10">
@@ -59,7 +63,7 @@ export default function MyProjectsPage() {
               alt={project.name}
               className="w-full h-48 object-cover"
             />
-            <div className="bg-gray-900 text-white text-center py-3 relative">
+            <div className="bg-gray-800 text-white text-center py-3 relative">
               <h3 className="text-lg font-semibold">{project.name}</h3>
               <div className="flex justify-center gap-3 mt-2">
                 <button className="bg-teal-500 px-3 py-1 rounded text-sm hover:bg-teal-600">
@@ -74,27 +78,27 @@ export default function MyProjectsPage() {
         ))}
 
         {/* Add New Project Card */}
-        <div className="border-2 border-blue-300 border-dashed flex flex-col items-center justify-center rounded text-blue-500 hover:bg-blue-50 cursor-pointer">
+        <div className="border-2 border-blue-300 border-dashed flex flex-col items-center justify-center rounded text-blue-500 hover:bg-blue-100 cursor-pointer">
           <div className="text-4xl">+</div>
           <p className="mt-2 font-medium">Add New Project</p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-10 px-8 mt-10">
+      <footer className="bg-dark-gray text-white py-10 px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm">
           <div>
-            <h4 className="font-semibold mb-2">Quick Link</h4>
-            <ul className="space-y-1">
-              <li>About Us</li>
-              <li>Contact Us</li>
-              <li>Privacy Policy</li>
-              <li>Terms & Condition</li>
-              <li>FAQs & Help</li>
+           <h4 className="font-semibold mb-2 text-xl">Quick Link</h4>
+           <ul className="space-y-1">
+              <li className="before:content-['>'] before:mr-2 before:text-white">About Us</li>
+              <li className="before:content-['>'] before:mr-2 before:text-white">Contact Us</li>
+             <li className="before:content-['>'] before:mr-2 before:text-white">Privacy Policy</li>
+              <li className="before:content-['>'] before:mr-2   before:text-white">Terms & Condition</li>
+              <li className="before:content-['>'] before:mr-2 before:text-white">FAQs & Help</li>
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-2">Contact</h4>
+            <h4 className="font-semibold mb-2 text-xl">Contact</h4>
             <p>DIC, UIET, Panjab University, Chandigarh</p>
             <p>+91 98765 43210</p>
             <p>dic@uiet.puchd.ac.in</p>
@@ -103,7 +107,7 @@ export default function MyProjectsPage() {
             </div>
           </div>
           <div>
-            <h4 className="font-semibold mb-2">Gallery</h4>
+            <h4 className="font-semibold mb-2 text-xl">Gallery</h4>
             <div className="grid grid-cols-3 gap-1">
               {[1, 2, 3, 4, 5, 6].map(n => (
                 <img
@@ -116,7 +120,7 @@ export default function MyProjectsPage() {
             </div>
           </div>
           <div>
-            <h4 className="font-semibold mb-2">Newsletter</h4>
+            <h4 className="font-semibold mb-2 text-xl">Newsletter</h4>
             <p className="mb-2">Dolor amet sit justo amet elitr ipsum elitr et.</p>
             <div className="flex">
               <input
@@ -131,8 +135,20 @@ export default function MyProjectsPage() {
           </div>
         </div>
         <div className="text-center text-xs mt-6 text-gray-400">
-          © Your Site Name, All Right Reserved. Designed by HTML Codex | Distributed by ThemeWagon
+        © Your Site Name, All Right Reserved. Designed by HTML Codex | Distributed by ThemeWagon
+      </div>
+      <div className="flex justify-between items-center mt-4 text-xs text-gray-400">
+        <div></div> {/* Empty div to balance layout */}
+        <div className="flex space-x-4">
+          <a href="#" className="hover:text-white">Home</a>
+          <a href="#" className="hover:text-white">Cookies</a>
+          <a href="#" className="hover:text-white">Help</a>
+          <a href="#" className="hover:text-white">FAQs</a>
         </div>
+        <a href="#" className="text-dark-blue hover:text-mid-blue text-3xl bg-white px-4 py-2" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          ↑
+        </a>
+      </div>
       </footer>
     </div>
   );
