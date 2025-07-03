@@ -5,7 +5,7 @@ export default function ApplyNowPage() {
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Navbar */}
-<nav className="bg-white shadow-md p-4 flex justify-between items-center px-8">
+<nav className="bg-white shadow-md flex justify-between items-center px-8">
   <div className="text-xl font-bold text-blue-600">
     <img
       src="https://dicpu.in/images/dic/diclogobg.png"
@@ -20,7 +20,7 @@ export default function ApplyNowPage() {
       <li className="hover:text-dark-blue cursor-pointer">RESOURCES ▾</li>
       <li className="hover:text-dark-blue cursor-pointer">CONTACT</li>
     </ul>
-    <button className="bg-mid-blue text-white px-6 py-2 rounded-none hover:bg-blue-100 hover:text-blue-800 after:content-['→'] after:ml-1 ml-4">
+    <button className="bg-mid-blue text-white px-6 py-5 rounded-none hover:bg-dark-blue hover:text-white after:content-['→'] after:ml-1 ml-4">
       Join DIC
     </button>
   </div>
