@@ -1,32 +1,59 @@
 const User = require('../models/User');
+const { setUser } = require('../service/auth');
+const bcrypt = require('bcrypt');
 
-const handleUserRegister = async (req, res) => {
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
-    const role = req.body.role;
+async function handleUserSignup(req, res) {
+    try {
+        const { name, email, password, role, rollNumber } = req.body;
 
-    // Bad Request
-    if(!name || !email || !password) {
-        return res.status(400).json({ error: 'Please fill all details'});
+        // Hash password before saving
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await User.create({
+            name,
+            email,
+            password: hashedPassword,
+            role,
+            rollNumber: role === 'student' ? rollNumber : undefined,
+        });
+
+        // Automatically login after signup
+        const token = setUser(newUser);
+        res.cookie("uid", token, { httpOnly: true });
+        return res.status(201).json({ message: "User registered successfully" });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({ error: "Error creating user" });
     }
+}
 
-    // Check if user exists
-    const existingUser = await User.findOne({ email: email });
-    if(existingUser) return res.status(400).json({ error: 'User already exists'});
+async function handleUserLogin(req, res) {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
 
-    // Create user 
-    const user = new User({
-        name: name,
-        email: email,
-        password: password,
-        role: role
-    });
-    await user.save();
+        if (!user) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
 
-    res.status(201).json({ message: 'User registered successfully'});
+        // Compare hashed password
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+
+        const token = setUser(user);
+        res.cookie("uid", token, { httpOnly: true });
+        return res.json({ message: "Login successful" });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
 }
 
 module.exports = {
-    handleUserRegister,
-}
+    handleUserSignup,
+    handleUserLogin,
+};
