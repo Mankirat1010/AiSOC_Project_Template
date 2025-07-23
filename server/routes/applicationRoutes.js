@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { createApplication } = require('../controllers/application');  // Adjust path if needed
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); 
 
-// POST route to create a new application
-router.post('/create', createApplication);
+const { createApplication, getApplicationsByUser } = require('../controllers/application');
+
+router.post('/create', upload.single('resume'), createApplication);
+router.get('/', getApplicationsByUser);
 
 module.exports = router;

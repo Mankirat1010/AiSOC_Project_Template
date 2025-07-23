@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { createProject } = require('../controllers/project'); // make sure this path is correct
+const { createProject, getAllProjects, getProjectById } = require('../controllers/project');
 
 router.post('/create', createProject);
+router.get('/', getAllProjects); 
+router.get('/:id', getProjectById); 
 
 module.exports = router;

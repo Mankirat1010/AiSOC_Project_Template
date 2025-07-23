@@ -6,6 +6,9 @@ async function handleUserSignup(req, res) {
     try {
         const { name, email, password, role, rollNumber } = req.body;
 
+        const existingUser = await User.findOne({ email });
+        if (existingUser) return res.status(400).json({ error: "Email already in use" });
+
         // Hash password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -20,7 +23,7 @@ async function handleUserSignup(req, res) {
         // Automatically login after signup
         const token = setUser(newUser);
         res.cookie("uid", token, { httpOnly: true });
-        return res.status(201).json({ message: "User registered successfully" });
+        return res.status(201).json({ message: "User registered successfully", user: { name: newUser.name, email: newUser.email, role: newUser.role } });
 
     } catch (error) {
         console.error(error);
@@ -45,7 +48,7 @@ async function handleUserLogin(req, res) {
 
         const token = setUser(user);
         res.cookie("uid", token, { httpOnly: true });
-        return res.json({ message: "Login successful" });
+        return res.json({ message: "Login successful", user: { name: user.name, email: user.email, role: user.role } });
 
     } catch (error) {
         console.error(error);

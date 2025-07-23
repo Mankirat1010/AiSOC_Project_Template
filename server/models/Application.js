@@ -11,7 +11,6 @@ const applicationSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  // Extra fields for application details:
   rollNumber: { 
     type: String, required: true 
   },
@@ -35,5 +34,4 @@ const applicationSchema = new mongoose.Schema({
   },
 });
 
-const Application = mongoose.model('Application', applicationSchema);
-module.exports = Application;
+module.exports = mongoose.model('Application', applicationSchema);

@@ -1,14 +1,26 @@
-const Application = require('../models/application');
+const Application = require('../models/Application');
 
 async function createApplication(req, res) {
+    console.log("BODY:", req.body);
     try {
-        const { userId, projectId, resumeLink } = req.body;  // example fields, adjust as per your schema
+        const { userId, projectId, rollNumber, year, motivation, resumeUrl } = req.body;
+
+        if (!userId || !projectId || !rollNumber) {
+          return res.status(400).json({ error: "Missing required fields" });
+        }
+
+        // Check if user already applied to same project (optional)
+        const existing = await Application.findOne({ project: projectId, applicant: userId });
+        if (existing) return res.status(400).json({ error: "Already applied for this project" });
 
         // create new application document
         const application = new Application({
-            user: userId,
+            applicant: userId,
             project: projectId,
-            resume: resumeLink,
+            rollNumber,
+            year,
+            motivation,
+            resumeUrl,
             appliedAt: new Date(),
         });
 
@@ -21,6 +33,18 @@ async function createApplication(req, res) {
     }
 }
 
+
+async function getApplicationsByUser(req, res) {
+  try {
+    const { userId } = req.query;
+    const applications = await Application.find({ applicant: userId }).populate('project');
+    res.json({ applications });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch applications" });
+  }
+}
+
 module.exports = {
-    createApplication,
+  createApplication,
+  getApplicationsByUser,
 };
