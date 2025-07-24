@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 export default function ApplyProject({ projectId }) {
   const [formData, setFormData] = useState({
@@ -11,26 +10,26 @@ export default function ApplyProject({ projectId }) {
     motivation: "",
   });
 
-  const [photoFile, setPhotoFile] = useState(null);
+  const [branch, setBranch] = useState("");
   const [resumeFile, setResumeFile] = useState(null);
-
-  // To show file names after selection
-  const [photoName, setPhotoName] = useState("No file chosen");
   const [resumeName, setResumeName] = useState("No file chosen");
+
+  const navigate = useNavigate();
+
+  // ✅ Redirect to login if not logged in
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  const handlePhotoChange = (e) => {
-    if (e.target.files.length > 0) {
-      setPhotoFile(e.target.files[0]);
-      setPhotoName(e.target.files[0].name);
-    }
   };
 
   const handleResumeChange = (e) => {
@@ -41,102 +40,106 @@ export default function ApplyProject({ projectId }) {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("userId");
 
-  // Use FormData to send files and fields
-  const form = new FormData();
-  form.append("userId", userId);
-  form.append("projectId", projectId);
-  form.append("fullName", formData.fullName);
-  form.append("year", formData.year);
-  form.append("rollNumber", formData.rollNumber);
-  form.append("motivation", formData.motivation);
-  if (resumeFile) form.append("resume", resumeFile);
+    const form = new FormData();
+    form.append("userId", userId);
+    form.append("projectId", projectId);
+    form.append("fullName", formData.fullName);
+    form.append("year", formData.year);
+    form.append("rollNumber", formData.rollNumber);
+    form.append("motivation", formData.motivation);
+    form.append("branch", branch);
+    if (resumeFile) form.append("resume", resumeFile);
 
-  try {
-    await axios.post(
-      "http://localhost:5000/api/applications/create",
-      form,
-      {
+    try {
+      await axios.post("http://localhost:5000/api/applications/create", form, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
-    );
-    alert("Application submitted!");
-    // Optionally redirect here
-  } catch (err) {
-    alert(err.response?.data?.error || "Failed to submit application.");
-  }
-};
+      });
+      alert("Application submitted!");
+      navigate("/my-applications"); // Redirect after successful submission
+    } catch (err) {
+      alert(err.response?.data?.error || "Failed to submit application.");
+    }
+  };
 
   return (
-    <section className="text-center py-10 px-8 bg-blue-100">
+    <section className="text-center py-10 px-8 bg-blue-100 min-h-screen">
       <div className="max-w-md mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6">
         <form className="space-y-4" onSubmit={handleSubmit}>
-
           <div>
             <img
               src="https://static.vecteezy.com/system/resources/previews/051/065/783/non_2x/apply-here-icon-simple-flat-icon-isolated-on-white-background-vector.jpg"
               className="w-60 h-32 mx-auto"
               alt="Apply icon"
             />
-            {/* You can display project title dynamically if passed as prop */}
-            {/* <p className="text-2xl font-semibold text-gray-800 mb-4">{projectTitle}</p> */}
           </div>
 
           {/* Full Name */}
-          <div>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Full Name"
-            />
-          </div>
+          <input
+            type="text"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Full Name"
+          />
 
           {/* Year */}
-          <div>
-            <input
-              type="text"
-              name="year"
-              value={formData.year}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Year"
-            />
-          </div>
+          <input
+            type="text"
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
+            required
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Year"
+          />
+
+          {/* Branch */}
+          <select
+            id="branch"
+            value={branch}
+            onChange={(e) => setBranch(e.target.value)}
+            required
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded"
+          >
+            <option value="">Select Branch</option>
+            <option value="CSE">CSE</option>
+            <option value="IT">IT</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="MECH">MECH</option>
+            <option value="BIOTECH">BIOTECH</option>
+          </select>
 
           {/* Roll Number */}
-          <div>
-            <input
-              type="text"
-              name="rollNumber"
-              value={formData.rollNumber}
-              onChange={handleChange}
-              required
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Roll no."
-            />
-          </div>
+          <input
+            type="text"
+            name="rollNumber"
+            value={formData.rollNumber}
+            onChange={handleChange}
+            required
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Roll Number"
+          />
 
           {/* Motivation */}
-          <div>
-            <textarea
-              name="motivation"
-              value={formData.motivation}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              placeholder="Why do you want to join this project?"
-              rows={3}
-            />
-          </div>
+          <textarea
+            name="motivation"
+            value={formData.motivation}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+            placeholder="Why do you want to join this project?"
+            rows={3}
+            required
+          />
 
           {/* Upload Resume */}
           <div className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus-within:ring-2 focus-within:ring-blue-400">
@@ -161,7 +164,7 @@ export default function ApplyProject({ projectId }) {
 
           <button
             type="submit"
-            className="w-full bg-mid-blue text-white px-4 py-2 rounded hover:bg-dark-blue transition duration-100"
+            className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-100"
           >
             Submit
           </button>

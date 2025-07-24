@@ -14,7 +14,25 @@ export default {
         'dark-blue': '#466FCC',
         'white': '#FFFFFF',
       },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        fira: ['Fira Mono', 'monospace'],
+      },
+      keyframes: {
+        typing: {
+          '0%': { width: '0' },
+          '100%': { width: '100%' },
+        },
+        blink: {
+          '0%, 100%': { borderColor: 'transparent' },
+          '50%': { borderColor: 'white' },
+        },
+      },
+      animation: {
+        typing: 'typing 3s steps(30, end) forwards',
+        blink: 'blink 1s step-end infinite',
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 }

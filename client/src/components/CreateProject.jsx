@@ -23,34 +23,45 @@ export default function CreateProject() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const teacherId = localStorage.getItem("userId");
+  const teacherId = localStorage.getItem("userId");
 
-    // Convert skills and associateFaculty to arrays
-    const projectData = {
-      ...formData,
-      skills: formData.skills
-        ? formData.skills.split(",").map((skill) => skill.trim())
-        : [],
-      associateFaculty: formData.associateFaculty
-        ? formData.associateFaculty.split(",").map((f) => f.trim())
-        : [],
-      teacher: teacherId,
-    };
+  // 👇 ADD THIS CHECK HERE
+  if (!teacherId) {
+    alert("You must be logged in as a teacher to post a project.");
+    return;
+  }
 
-    try {
-      await axios.post("http://localhost:5000/api/projects/create", projectData, {
-        withCredentials: true,
-      });
-
-      alert("Project created successfully!");
-      navigate("/teacher");
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.error || "Failed to create project.");
-    }
+  // Convert skills and associateFaculty to arrays
+  const projectData = {
+    ...formData,
+    skills: formData.skills
+      ? formData.skills.split(",").map((skill) => skill.trim())
+      : [],
+    associateFaculty: formData.associateFaculty
+      ? formData.associateFaculty.split(",").map((f) => f.trim())
+      : [],
+    teacher: teacherId,
   };
+
+  console.log("Final projectData sent:", projectData);
+
+  try {
+    await axios.post("http://localhost:5000/api/projects/create", projectData, {
+      withCredentials: true,
+    });
+
+    alert("Project created successfully!");
+    navigate("/teacher");
+  } catch (err) {
+      console.error("Submission error:", err);
+      console.log("Backend response:", err.response?.data); 
+
+      alert(err.response?.data?.error || "Failed to create project.");
+}
+};
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -94,14 +105,18 @@ export default function CreateProject() {
 
       <div>
         <label className="block font-semibold mb-1">Mode</label>
-        <input
-          type="text"
+        <select
           name="mode"
           value={formData.mode}
           onChange={handleChange}
+          required
           className="w-full border border-gray-300 rounded px-3 py-2"
-          placeholder="e.g. Online, Offline"
-        />
+        >
+          <option value="">Select mode</option>
+          <option value="Online">Online</option>
+          <option value="Offline">Offline</option>
+          <option value="Dual">Dual</option>
+        </select>
       </div>
 
       <div>

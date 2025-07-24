@@ -1,38 +1,42 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import defaultProjectPic from "../assets/default_project_pic.jpg";
 import axios from "axios";
 
 export default function ApplicantsPage() {
-  // For demo, hardcode projectId or get from route params
-  const projectId = "YOUR_PROJECT_ID_HERE"; // Replace with actual logic
+  const search = new URLSearchParams(window.location.search);
+  const projectId = search.get("projectId");
 
   const [project, setProject] = useState(null);
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchApplicantsAndProject() {
       setLoading(true);
       try {
+        // Fetch applicants
+        const appRes = await axios.get(
+          `http://localhost:5000/api/applications?projectId=${projectId}`
+        );
+        setApplicants(appRes.data.applications || []);
+
         // Fetch project details
         const projRes = await axios.get(
           `http://localhost:5000/api/projects/${projectId}`
         );
-        setProject(projRes.data);
-
-        // Fetch applicants for this project
-        const appRes = await axios.get(
-          `http://localhost:5000/api/applications?project=${projectId}`
-        );
-        setApplicants(appRes.data.applications || []);
+        setProject(projRes.data || null);
       } catch (err) {
-        alert("Failed to load data");
+        console.error("Failed to fetch data:", err);
       } finally {
         setLoading(false);
       }
     }
-    fetchData();
+
+    if (projectId) {
+      fetchApplicantsAndProject();
+    }
   }, [projectId]);
 
   return (
@@ -47,22 +51,22 @@ export default function ApplicantsPage() {
             </h1>
             <div className="grid grid-cols-2 gap-4 mb-6">
               <img
-                src={project.image}
+                src={project.image || defaultProjectPic}
                 alt={project.title}
-                className="rounded"
+                className="rounded w-full h-auto object-cover max-h-60"
               />
               <div>
                 <p className="text-gray-600 mb-2">{project.description}</p>
                 <div className="space-y-2 text-gray-600">
                   <p>
-                    <strong>Mode :</strong> {project.mode}
+                    <strong>Mode:</strong> {project.mode || "N/A"}
                   </p>
                   <p>
-                    <strong>Skills :</strong> {project.skills?.join(", ")}
+                    <strong>Skills:</strong> {project.skills?.join(", ") || "N/A"}
                   </p>
                   <p>
-                    <strong>Associate Faculty :</strong>{" "}
-                    {project.associateFaculty?.join(", ")}
+                    <strong>Associate Faculty:</strong>{" "}
+                    {project.associateFaculty?.join(", ") || "N/A"}
                   </p>
                 </div>
               </div>
@@ -86,6 +90,7 @@ export default function ApplicantsPage() {
                   <th className="px-4 py-2 border">Name</th>
                   <th className="px-4 py-2 border">Roll Number</th>
                   <th className="px-4 py-2 border">Year</th>
+                  <th className="px-4 py-2 border">Branch</th>
                   <th className="px-4 py-2 border">Motivation</th>
                   <th className="px-4 py-2 border">Resume</th>
                 </tr>
@@ -96,6 +101,7 @@ export default function ApplicantsPage() {
                     <td className="px-4 py-2 border">{app.applicant?.name || "-"}</td>
                     <td className="px-4 py-2 border">{app.rollNumber}</td>
                     <td className="px-4 py-2 border">{app.year}</td>
+                    <td className="px-4 py-2 border">{app.branch || "-"}</td>
                     <td className="px-4 py-2 border">{app.motivation}</td>
                     <td className="px-4 py-2 border">
                       {app.resumeUrl ? (
@@ -111,6 +117,50 @@ export default function ApplicantsPage() {
                         "N/A"
                       )}
                     </td>
+
+                  <td className="px-4 py-2 border">
+  {app.status === "accepted" ? (
+    <span className="text-green-600 font-semibold">ACCEPTED</span>
+  ) : app.status === "rejected" ? (
+    <span className="text-red-600 font-semibold">REJECTED</span>
+  ) : (
+    <div className="flex gap-1">
+      <button
+        className="flex-1 bg-green-500 text-white px-3 py-1 rounded text-sm"
+        onClick={async () => {
+          await axios.patch(
+            `http://localhost:5000/api/applications/${app._id}/status`,
+            { status: "accepted" }
+          );
+          setApplicants((prev) =>
+            prev.map((a) =>
+              a._id === app._id ? { ...a, status: "accepted" } : a
+            )
+          );
+        }}
+      >
+        Accept
+      </button>
+      <button
+        className="flex-1 bg-red-500 text-white px-3 py-1 rounded text-sm"
+        onClick={async () => {
+          await axios.patch(
+            `http://localhost:5000/api/applications/${app._id}/status`,
+            { status: "rejected" }
+          );
+          setApplicants((prev) =>
+            prev.map((a) =>
+              a._id === app._id ? { ...a, status: "rejected" } : a
+            )
+          );
+        }}
+      >
+        Reject
+      </button>
+    </div>
+  )}
+</td>
+
                   </tr>
                 ))}
               </tbody>

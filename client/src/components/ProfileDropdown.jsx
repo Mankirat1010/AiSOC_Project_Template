@@ -30,7 +30,7 @@ export default function ProfileDropdown() {
     if (userRole === "teacher") {
       navigate("/teacher");
     } else if (userRole === "student") {
-      navigate("/projects");
+      navigate("/my-applications");
     }
   };
 
@@ -58,7 +58,7 @@ export default function ProfileDropdown() {
             className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
             onClick={() => {
               localStorage.clear();
-              navigate("/login");
+              navigate("/");
             }}
           >
             Logout

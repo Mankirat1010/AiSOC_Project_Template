@@ -16,7 +16,11 @@ const applicationSchema = new mongoose.Schema({
   },
   year: { 
     type: String
-  },                 
+  },     
+  branch: {
+  type: String,
+  required: true,
+},            
   motivation: { 
     type: String 
   },            

@@ -8,7 +8,7 @@ export default function ProjectPage() {
     <div className="bg-blue-100 min-h-screen">
       <Header />
       <ProjectDetail />
-      <Footer />
+
     </div>
   );
 }

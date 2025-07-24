@@ -20,13 +20,16 @@ export default function LoginPage() {
         form,
         { withCredentials: true }
       );
-      alert("Login successful!");
+
+      console.log("Login response:", res.data);
+      console.log("User ID in response:", res.data.user._id);
+
+      // alert("Login successful!");
       // Save user role for later use
+      localStorage.setItem("userId", res.data.user._id); 
       localStorage.setItem("userRole", res.data.user.role);
       localStorage.setItem("userName", res.data.user.name);
       localStorage.setItem("userEmail", res.data.user.email);
-      localStorage.setItem("userId", res.data.user._id); 
-
 
       // Redirect based on user role
       navigate("/projects");

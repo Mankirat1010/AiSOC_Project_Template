@@ -29,16 +29,22 @@ export default function ProjectDetail() {
 
   return (
     <div className="max-w-4xl mx-auto mt-10 mb-16 p-6 bg-white rounded-lg shadow-lg bg-blue-50">
+      {/* Show project image at the top */}
+      {project.image && (
+        <img
+          src={project.image || "assets/default_project_pic.jpg"}
+          alt={project.title}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "path/to/default_project_pic.jpg";
+          }}
+          className="mx-auto mb-6 rounded-lg shadow-md max-h-72 object-contain bg-white"
+        />
+
+      )}
       <h1 className="text-2xl font-bold text-black mb-4">
         {project.title}
       </h1>
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="rounded"
-        />
-      </div>
       <p className="text-gray-600 mb-4">{project.description}</p>
       <div className="space-y-2 text-gray-600">
         <p>

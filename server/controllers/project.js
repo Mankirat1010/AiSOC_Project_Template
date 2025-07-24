@@ -17,18 +17,24 @@ async function createProject(req, res) {
 
         res.status(201).json(newProject);
     } catch (error) {
-        console.error(error);
-        res.status(400).json({ error: 'Failed to create project' });
-    }
+    console.error("Project creation error:", error); // Log full error to terminal
+    res.status(400).json({ error: error.message || 'Failed to create project' }); // Send real error to frontend
 }
 
+}
+
+// In your getAllProjects controller (server/controllers/project.js)
 async function getAllProjects(req, res) {
-    try {
-        const projects = await Project.find().populate('teacher', 'name email');
-        res.json(projects);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch projects' });
+  try {
+    const filter = {};
+    if (req.query.teacher) {
+      filter.teacher = req.query.teacher;
     }
+    const projects = await Project.find(filter);
+    res.json(projects);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch projects' });
+  }
 }
 
 async function getProjectById(req, res) {

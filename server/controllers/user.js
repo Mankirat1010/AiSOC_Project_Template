@@ -23,7 +23,13 @@ async function handleUserSignup(req, res) {
         // Automatically login after signup
         const token = setUser(newUser);
         res.cookie("uid", token, { httpOnly: true });
-        return res.status(201).json({ message: "User registered successfully", user: { name: newUser.name, email: newUser.email, role: newUser.role } });
+        return res.status(201).json({ message: "User registered successfully", 
+            user: { 
+                _id: newUser._id, 
+                name: newUser.name, 
+                email: newUser.email, 
+                role: newUser.role 
+            } });
 
     } catch (error) {
         console.error(error);
@@ -48,7 +54,13 @@ async function handleUserLogin(req, res) {
 
         const token = setUser(user);
         res.cookie("uid", token, { httpOnly: true });
-        return res.json({ message: "Login successful", user: { name: user.name, email: user.email, role: user.role } });
+        return res.json({ message: "Login successful", 
+            user: { 
+                _id: user._id, 
+                name: user.name, 
+                email: user.email, 
+                role: user.role 
+            } });
 
     } catch (error) {
         console.error(error);

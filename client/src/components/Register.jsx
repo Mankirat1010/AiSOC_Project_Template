@@ -48,6 +48,7 @@ export default function RegisterPage() {
       );
 
       alert('Registration successful!');
+      navigate('/login');
       console.log(res.data);
 
       setFormData({
